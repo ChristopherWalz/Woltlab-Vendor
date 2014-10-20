@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WoltLab Vendor</string>
+    <string name="widgetName">WoltLab Vendor</string>
+    <string name="balance">Aktuelles Guthaben woltlab.com</string>
+    <string name="emptyForm">Bitte fülle alle Felder aus.</string>
+    <string name="vendorIDInteger">Die vendorID muss eine Zahl sein.</string>
+    <string name="vendorID">Vendor-ID</string>
+    <string name="apiKey">API-KEY</string>
+    <string name="currency">Währung</string>
+    <string name="save">Speichern</string>
+    <string name="noTransactions">Es wurden keine Transaktionen gefunden.</string>
+    <string name="currentBalance">Aktuelles Guthaben:</string>
+    <string name="action_settings">Optionen</string>
+    <string name="action_refresh">Aktualisieren</string>
+    <string name="title_activity_options">Optionen</string>
+
+    <string-array name="currency_array">
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
+</resources>

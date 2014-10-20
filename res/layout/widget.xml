@@ -1,0 +1,42 @@
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/widget_margin">
+
+  <RelativeLayout
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="8dp">
+        <TextView 
+    	    android:id="@+id/balanceInfo" 
+    	    android:textSize="14sp"
+    	    android:text="@string/balance" 
+    	    android:gravity="center"
+    	    android:layout_height="wrap_content" 
+    	    android:layout_width="wrap_content"/>
+        
+    	<TextView
+    	    android:id="@+id/currency" 
+    	    android:textSize="20sp"
+    	    android:layout_below="@+id/balanceInfo"
+    	    android:layout_toRightOf="@+id/balance"
+    	    android:layout_marginLeft="2dp"
+    	    android:layout_centerHorizontal="true"
+    	    android:textStyle="bold"
+    	    android:layout_height="wrap_content" 
+    	    android:layout_width="wrap_content"/>
+    	
+    	<TextView 
+    	    android:id="@+id/balance" 
+    	    android:textSize="20sp"
+    	    android:layout_below="@+id/balanceInfo"
+    	    android:layout_centerHorizontal="true"
+    	    android:textStyle="bold"
+    	    android:layout_height="wrap_content" 
+    	    android:layout_width="wrap_content"/>
+  </RelativeLayout>
+
+</FrameLayout>
