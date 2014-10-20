@@ -15,6 +15,7 @@
     <string name="action_settings">Options</string>
      <string name="action_refresh">Refresh</string>
     <string name="title_activity_options">Options</string>
+    <string name="configurationNotDone">The configuration (woltlabID and vendorID) is missing.</string>
 
     <string-array name="currency_array">
         <item>EUR</item>

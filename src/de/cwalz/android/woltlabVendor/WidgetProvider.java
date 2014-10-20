@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class WidgetProvider extends AppWidgetProvider {
     public static final String ACTION_UPDATE_CLICK = "de.cwalz.android.woltlabVendor.UPDATE_CLICK";	
@@ -29,6 +30,15 @@ public class WidgetProvider extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
         }*/
         
+        SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);        
+        final int vendorID = settings.getInt("vendorID", 0);
+        final String apiKey = settings.getString("apiKey", "");
+        
+        // return false if configuration is not done yet
+        if (vendorID == 0 || apiKey.isEmpty()) {
+        	Log.i(WidgetProvider.LOG_TAG, "Configuration not done yet, return");
+        	return;
+        }
         
         TransactionsUtil.updateBalance(LOADING_STRING, context);
         TransactionsUtil.update(context, new ICallback() {

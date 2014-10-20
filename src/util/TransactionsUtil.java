@@ -40,7 +40,8 @@ public final class TransactionsUtil {
         if (vendorID == 0 || apiKey.isEmpty()) {
         	callback.onSuccess(0);
         	Log.i(WidgetProvider.LOG_TAG, "Configuration not done yet, return");
-        	return;        
+        	Toast.makeText(context, context.getString(R.string.configurationNotDone), Toast.LENGTH_LONG).show();
+        	return;
         }
         
     	
