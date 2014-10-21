@@ -5,7 +5,7 @@
     <string name="widgetName">WoltLab Vendor</string>
     <string name="balance">Current Balance woltlab.com</string>
     <string name="emptyForm">Please fill out all the fields.</string>
-    <string name="vendorIDInteger">vendorID must be an integer,</string>
+    <string name="vendorIDInteger">vendorID must be an integer.</string>
     <string name="vendorID">Vendor-ID</string>
     <string name="apiKey">API-KEY</string>
     <string name="currency">Currency</string>

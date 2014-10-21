@@ -40,7 +40,7 @@ public final class TransactionsUtil {
         if (vendorID == 0 || apiKey.isEmpty()) {
         	callback.onSuccess(0);
         	Log.i(WidgetProvider.LOG_TAG, "Configuration not done yet, return");
-        	Toast.makeText(context, context.getString(R.string.configurationNotDone), Toast.LENGTH_LONG).show();
+        	Toast.makeText(context, context.getString(R.string.configurationNotDone), Toast.LENGTH_SHORT).show();
         	return;
         }
         
@@ -59,15 +59,6 @@ public final class TransactionsUtil {
     	    	Log.i(WidgetProvider.LOG_TAG, "apiKey: " + apiKey);
     	    	Log.i(WidgetProvider.LOG_TAG, "lastTransactionID: " + lastTransactionID);
     	    }
-    	    
-    	    @Override
-			public void onFailure(int statusCode, Header[] headers,
-					String responseString, Throwable throwable) {
-				super.onFailure(statusCode, headers, responseString, throwable);
-				Log.i("FAILURE", responseString);
-				Log.i("FAILURE", String.valueOf(statusCode));
-				Log.i("FAUL", throwable.getMessage());
-			}
     	    
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				int status = 0;
@@ -129,7 +120,7 @@ public final class TransactionsUtil {
 						try {
 							errorMessage = response.getString("errorMessage");
 						} catch (JSONException e) {}
-						Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
+						Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
 						
 						//callback
 						callback.onFailure(errorMessage);

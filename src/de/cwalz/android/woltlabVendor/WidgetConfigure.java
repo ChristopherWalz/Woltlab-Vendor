@@ -61,7 +61,7 @@ public class WidgetConfigure extends Activity {
 				String currency = currencySpinner.getSelectedItem().toString();
 				
 				if (vendorID == 0 || apiKey.isEmpty() || currency.isEmpty()) {
-					Toast.makeText(getApplicationContext(), getString(R.string.emptyForm), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
 				}
 				else {
 					// save new values in preferences
