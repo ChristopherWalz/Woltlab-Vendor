@@ -5,15 +5,15 @@
     <string name="widgetName">WoltLab Vendor</string>
     <string name="balance">Current Balance woltlab.com</string>
     <string name="emptyForm">Please fill out all the fields.</string>
-     <string name="vendorIDInteger">vendorID must be an integer,</string>
+    <string name="vendorIDInteger">vendorID must be an integer,</string>
     <string name="vendorID">Vendor-ID</string>
     <string name="apiKey">API-KEY</string>
     <string name="currency">Currency</string>
     <string name="save">Save</string>
     <string name="noTransactions">No transactions found.</string>
-    <string name="currentBalance">Current Balanace:</string>
+    <string name="currentBalance">Current Balance:</string>
     <string name="action_settings">Options</string>
-     <string name="action_refresh">Refresh</string>
+    <string name="action_refresh">Refresh</string>
     <string name="title_activity_options">Options</string>
     <string name="configurationNotDone">The configuration (woltlabID and vendorID) is missing.</string>
 

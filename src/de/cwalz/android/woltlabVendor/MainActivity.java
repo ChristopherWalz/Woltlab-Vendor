@@ -28,7 +28,7 @@ public class MainActivity extends ListActivity {
 	String currency;
 	SharedPreferences settings;
 	
-	//views
+	// views
 	TextView balanceView;
 	ProgressBar loadingView;
 	TextView emptyView;
