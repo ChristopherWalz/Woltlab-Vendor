@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
     public static final String ACTION_UPDATE_CLICK = "de.cwalz.android.woltlabVendor.UPDATE_CLICK";	
@@ -18,17 +19,17 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
     	super.onUpdate(context, appWidgetManager, appWidgetIds);
     	
-       /* for (int appWidgetID : appWidgetIds) {
+        for (int appWidgetID : appWidgetIds) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                                                       R.layout.widget);
 
-            remoteViews.setOnClickPendingIntent(R.id.layout,
+            remoteViews.setOnClickPendingIntent(R.id.layoutContainer,
                                                 TransactionsUtil.getPendingSelfIntent(context,
                                                            ACTION_UPDATE_CLICK)
             );
 
             appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
-        }*/
+        }
         
         SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);        
         final int vendorID = settings.getInt("vendorID", 0);
@@ -66,35 +67,15 @@ public class WidgetProvider extends AppWidgetProvider {
 				appWidgetIds
 			));
 	}
-    
-    /**
-     * A general technique for calling the onUpdate method,
-     * requiring only the context parameter.
-     *
-     * @author John Bentley, based on Android-er code.
-     * @see <a href="http://android-er.blogspot.com
-     * .au/2010/10/update-widget-in-onreceive-method.html">
-     * Android-er > 2010-10-19 > Update Widget in onReceive() method</a>
-     */
-    private void onUpdate(Context context) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance
-                (context);
-
-        // Uses getClass().getName() rather than MyWidget.class.getName() for
-        // portability into any App Widget Provider Class
-        ComponentName thisAppWidgetComponentName =
-                new ComponentName(context.getPackageName(),getClass().getName()
-        );
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
-                thisAppWidgetComponentName);
-        onUpdate(context, appWidgetManager, appWidgetIds);
-    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (ACTION_UPDATE_CLICK.equals(intent.getAction())) {
-            onUpdate(context);
+        	Log.i("CLICKED", ACTION_UPDATE_CLICK);
+            Intent mainIntent = new Intent(context, MainActivity.class);
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mainIntent);
         }
     }
 }

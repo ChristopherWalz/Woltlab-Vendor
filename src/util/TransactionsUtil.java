@@ -233,7 +233,6 @@ public final class TransactionsUtil {
             	remoteViews.setTextViewText(R.id.balance, newBalance);
             else
             	remoteViews.setTextViewText(R.id.balance, currency + " " + newBalance);
-            remoteViews.setOnClickPendingIntent(R.id.layout, getPendingSelfIntent(context, WidgetProvider.ACTION_UPDATE_CLICK));
 
             appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
         }    	
@@ -241,7 +240,7 @@ public final class TransactionsUtil {
     
     public static PendingIntent getPendingSelfIntent(Context context, String action) {
         // An explicit intent directed at the current class (the "self").
-        Intent intent = new Intent(context, TransactionsUtil.class);
+        Intent intent = new Intent(context, WidgetProvider.class);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }

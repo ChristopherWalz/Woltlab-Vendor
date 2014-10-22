@@ -5,7 +5,7 @@
   android:padding="@dimen/widget_margin">
 
   <RelativeLayout
-    android:id="@+id/layout"
+    android:id="@+id/layoutContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
