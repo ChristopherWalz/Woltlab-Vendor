@@ -150,6 +150,9 @@ public class MainActivity extends ListActivity {
     						}
     						if (balanceView.getText().toString().isEmpty()) {
     							balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
+    							
+    							// update widget
+    							TransactionsUtil.updateBalance(String.valueOf(balance), context);
     						}
     					}
     				}
