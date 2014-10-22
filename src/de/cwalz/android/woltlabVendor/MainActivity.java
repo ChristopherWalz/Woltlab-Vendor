@@ -7,6 +7,7 @@ import sql.TransactionsDataSource;
 import util.TransactionsUtil;
 import adapter.TransactionsAdapter;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -107,14 +108,15 @@ public class MainActivity extends ListActivity {
     	emptyView.setVisibility(View.GONE);
     	loadingView.setVisibility(View.VISIBLE);
     	
-    	// get new balance from shared preferences (necessary because onCreate will only be called once and not when action_refresh ist clicked)
+    	// get new balance from shared preferences (necessary because onCreate will only be called once and not when action_refresh is clicked)
     	balance = settings.getFloat("balance", 0);
 
+    	final Context context = getApplicationContext();
     	
 		// clear current list
     	transactions.clear();
 		    			
-    	TransactionsUtil.update(getApplicationContext(), new ICallback() {
+    	TransactionsUtil.update(context, new ICallback() {
     		public void onSuccess(final float newBalance) {
     			datasource.open();
     			transactions.addAll(datasource.getList());
@@ -135,13 +137,16 @@ public class MainActivity extends ListActivity {
     					else {
     						if (newBalance > balance) {
     							// update shared prefs
-    							settings = getApplicationContext().getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+    							settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
     							SharedPreferences.Editor editor = settings.edit();
     							editor.putFloat("balance", newBalance);
     							editor.commit();
 											    
     							// update view
     							balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + newBalance);
+    							
+    							// update widget
+    							TransactionsUtil.updateBalance(String.valueOf(newBalance), context);
     						}
     						if (balanceView.getText().toString().isEmpty()) {
     							balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
