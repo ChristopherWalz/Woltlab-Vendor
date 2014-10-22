@@ -234,6 +234,15 @@ public final class TransactionsUtil {
             else
             	remoteViews.setTextViewText(R.id.balance, currency + " " + newBalance);
 
+            // Create an Intent to launch ExampleActivity
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+            // Get the layout for the App Widget and attach an on-click listener
+            // to the button
+            remoteViews.setOnClickPendingIntent(R.id.layoutContainer, pendingIntent);
+
+            // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
         }    	
     }

@@ -1,6 +1,7 @@
 package de.cwalz.android.woltlabVendor;
 
 import util.TransactionsUtil;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -20,15 +21,17 @@ public class WidgetProvider extends AppWidgetProvider {
     	super.onUpdate(context, appWidgetManager, appWidgetIds);
     	
         for (int appWidgetID : appWidgetIds) {
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                                                      R.layout.widget);
+            // Create an Intent to launch ExampleActivity
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-            remoteViews.setOnClickPendingIntent(R.id.layoutContainer,
-                                                TransactionsUtil.getPendingSelfIntent(context,
-                                                           ACTION_UPDATE_CLICK)
-            );
+            // Get the layout for the App Widget and attach an on-click listener
+            // to the button
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+            views.setOnClickPendingIntent(R.id.layoutContainer, pendingIntent);
 
-            appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
+            // Tell the AppWidgetManager to perform an update on the current app widget
+            appWidgetManager.updateAppWidget(appWidgetID, views);
         }
         
         SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);        
@@ -67,15 +70,4 @@ public class WidgetProvider extends AppWidgetProvider {
 				appWidgetIds
 			));
 	}
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-        if (ACTION_UPDATE_CLICK.equals(intent.getAction())) {
-        	Log.i("CLICKED", ACTION_UPDATE_CLICK);
-            Intent mainIntent = new Intent(context, MainActivity.class);
-            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(mainIntent);
-        }
-    }
 }
