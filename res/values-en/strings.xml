@@ -17,7 +17,10 @@
     <string name="title_activity_options">Options</string>
     <string name="configurationNotDone">The configuration (woltlabID and vendorID) is missing.</string>
     <string name="notificationTitle">New sales</string>
-    <string name="notificationText">%1$d new sales (%2$.2f %3$s)</string>
+    <plurals name="notificationText">
+        <item quantity="one">One new sale (%2$.2f %3$s)</item>
+        <item quantity="other">%1$d new sales (%2$.2f %3$s)</item>
+    </plurals>
 
     <string-array name="currency_array">
         <item>EUR</item>

@@ -13,6 +13,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -203,13 +204,15 @@ public final class TransactionsUtil {
 	
 	        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 	                new Intent(context, MainActivity.class), 0);
-	
+	        
+	        Resources res = context.getResources();
+	        
 	        NotificationCompat.Builder mBuilder =
 	                new NotificationCompat.Builder(context)
 	        .setSmallIcon(R.drawable.icon)
 	        .setContentTitle(context.getString(R.string.notificationTitle))
 	        .setAutoCancel(true)
-	        .setContentText(context.getString(R.string.notificationText, sales, credit, currency));
+	        .setContentText(res.getQuantityString(R.plurals.notificationText, sales, sales, credit, currency));
 	
 	        mBuilder.setContentIntent(contentIntent);
 	        mNotificationManager.notify(1, mBuilder.build());
