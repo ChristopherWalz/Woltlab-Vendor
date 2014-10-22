@@ -16,6 +16,8 @@
     <string name="action_refresh">Aktualisieren</string>
     <string name="title_activity_options">Optionen</string>
     <string name="configurationNotDone">Die Konfiguration (woltlabID und vendorID) ist noch fehlerhaft.</string>
+    <string name="notificationTitle">Neue Verkäufe</string>
+    <string name="notificationText">%1$d neue Verkäufe (%2$.2f %3$s)</string>
 
     <string-array name="currency_array">
         <item>EUR</item>

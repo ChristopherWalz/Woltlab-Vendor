@@ -6,12 +6,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import sql.TransactionsDataSource;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import de.cwalz.android.woltlabVendor.ICallback;
+import de.cwalz.android.woltlabVendor.MainActivity;
 import de.cwalz.android.woltlabVendor.R;
 import de.cwalz.android.woltlabVendor.WidgetProvider;
 
@@ -163,9 +166,54 @@ public final class TransactionsUtil {
     	}
     	Log.i(WidgetProvider.LOG_TAG, "finished updating Database");
     	
+    	// send push notification
+    	sendNotification(context, transactions);
+    	
     	// call callback
 		SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
     	callback.onSuccess(settings.getFloat("balance", 0));
+    }
+    
+    private static void sendNotification(Context context, JSONArray transactions) {
+    	// parse data
+        SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+        String currency = settings.getString("currency", "EUR");
+        
+    	int length = transactions.length();
+    	int sales = 0;
+    	float credit = 0;
+
+    	try {
+	    	for (int i = 0; i < length; i++) {
+	    		JSONObject transaction = transactions.getJSONObject(i);
+	    		
+	    		if (!transaction.getBoolean("withdrawal")) {
+	    			sales++;
+	    			credit += Float.parseFloat(transaction.getString("credit"));
+	    		}
+	    	}
+    	} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	
+    	if (sales > 0 && credit > 0) {
+	    	// build notification
+	    	NotificationManager mNotificationManager = (NotificationManager)
+	    			context.getSystemService(Context.NOTIFICATION_SERVICE);
+	
+	        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+	                new Intent(context, MainActivity.class), 0);
+	
+	        NotificationCompat.Builder mBuilder =
+	                new NotificationCompat.Builder(context)
+	        .setSmallIcon(R.drawable.icon)
+	        .setContentTitle(context.getString(R.string.notificationTitle))
+	        .setAutoCancel(true)
+	        .setContentText(context.getString(R.string.notificationText, sales, credit, currency));
+	
+	        mBuilder.setContentIntent(contentIntent);
+	        mNotificationManager.notify(1, mBuilder.build());
+    	}
     }
     
     public static void updateBalance(String newBalance, Context context) {

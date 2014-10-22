@@ -16,6 +16,8 @@
     <string name="action_refresh">Refresh</string>
     <string name="title_activity_options">Options</string>
     <string name="configurationNotDone">The configuration (woltlabID and vendorID) is missing.</string>
+    <string name="notificationTitle">New sales</string>
+    <string name="notificationText">%1$d new sales (%2$.2f %3$s)</string>
 
     <string-array name="currency_array">
         <item>EUR</item>
