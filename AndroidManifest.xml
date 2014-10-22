@@ -44,7 +44,12 @@
 
         <activity
             android:name="de.cwalz.android.woltlabVendor.OptionsActivity"
-            android:label="@string/title_activity_options" >
+            android:label="@string/title_activity_options"
+            android:parentActivityName="de.cwalz.android.woltlabVendor.MainActivity" >
+        	<!-- Parent activity meta-data to support 4.0 and lower -->
+			<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="de.cwalz.android.woltlabVendor.MainActivity" />
         </activity>
     </application>
 

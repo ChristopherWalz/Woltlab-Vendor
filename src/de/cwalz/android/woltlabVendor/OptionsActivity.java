@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,7 +22,8 @@ public class OptionsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.options); 
-		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 		vendorIDTextView = (TextView) findViewById(R.id.vendorID);
 		apiKeyTextView = (TextView) findViewById(R.id.apiKey);
 		settings = getApplicationContext().getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
@@ -82,6 +85,17 @@ public class OptionsActivity extends Activity {
 					
 			}
 		});
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
 	}
 
 }
