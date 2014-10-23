@@ -140,7 +140,7 @@ public final class TransactionsUtil {
     	TransactionsDataSource datasource = new TransactionsDataSource(context);
         datasource.open();
         datasource.beginTransaction();
-    	Log.i(WidgetProvider.LOG_TAG, "starting update Database");
+    	Log.i(WidgetProvider.LOG_TAG, "Starting database update");
     	try {
 	    	for (int i = 0; i < length; i++) {
 	    		JSONObject transaction = transactions.getJSONObject(i);
@@ -165,7 +165,7 @@ public final class TransactionsUtil {
     	finally {
     		datasource.endTransaction();
     	}
-    	Log.i(WidgetProvider.LOG_TAG, "finished updating Database");
+    	Log.i(WidgetProvider.LOG_TAG, "Finished database update");
     	
     	// send push notification
     	sendNotification(context, transactions);

@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -124,10 +123,7 @@ public class MainActivity extends ListActivity {
 
     			// show views
     			runOnUiThread(new Runnable() {
-    				public void run() {
-    					Log.i("INFO", String.valueOf(newBalance));
-    					Log.i("INFO", String.valueOf(balance));
-					    	    		
+    				public void run() {					    	    		
     					loadingView.setVisibility(View.GONE);
     					getListView().setVisibility(View.VISIBLE);
     					balanceView.setVisibility(View.VISIBLE);
