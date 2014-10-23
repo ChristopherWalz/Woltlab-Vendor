@@ -183,6 +183,7 @@ public final class TransactionsUtil {
     	int length = transactions.length();
     	int sales = 0;
     	float credit = 0;
+    	int lastTransactionID = 1;
 
     	try {
 	    	for (int i = 0; i < length; i++) {
@@ -191,6 +192,10 @@ public final class TransactionsUtil {
 	    		if (!transaction.getBoolean("withdrawal")) {
 	    			sales++;
 	    			credit += Float.parseFloat(transaction.getString("credit"));
+	    		}
+	    		
+	    		if (i == (length-1)) {
+	    			lastTransactionID = transaction.getInt("transactionID");
 	    		}
 	    	}
     	} catch (JSONException e) {
@@ -215,7 +220,7 @@ public final class TransactionsUtil {
 	        .setContentText(res.getQuantityString(R.plurals.notificationText, sales, sales, credit, currency));
 	
 	        mBuilder.setContentIntent(contentIntent);
-	        mNotificationManager.notify(1, mBuilder.build());
+	        mNotificationManager.notify(lastTransactionID, mBuilder.build());
     	}
     }
     
