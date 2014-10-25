@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 public class OptionsActivity extends Activity {
 	private TextView vendorIDTextView;
 	private TextView apiKeyTextView;
+	private CheckBox vibrationView;
 	private SharedPreferences settings;
 	
 	@Override
@@ -26,15 +28,21 @@ public class OptionsActivity extends Activity {
 
 		vendorIDTextView = (TextView) findViewById(R.id.vendorID);
 		apiKeyTextView = (TextView) findViewById(R.id.apiKey);
+		vibrationView = (CheckBox) findViewById(R.id.vibration);
 		settings = getApplicationContext().getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
         int vendorID = settings.getInt("vendorID", 0);
         String apiKey = settings.getString("apiKey", "");
+        boolean vibration = settings.getBoolean("vibration", false);
         
         if (vendorID != 0) {
         	vendorIDTextView.setText(String.valueOf(vendorID));
         }
         if (!apiKey.isEmpty()) {
         	apiKeyTextView.setText(apiKey);
+        }
+        
+        if (vibration) {
+        	vibrationView.setChecked(true);
         }
 		
 		
@@ -51,38 +59,24 @@ public class OptionsActivity extends Activity {
 				catch (NumberFormatException e) {}
 				String apiKey = apiKeyTextView.getText().toString().trim();
 				String currency = currencySpinner.getSelectedItem().toString();
+				boolean vibration = vibrationView.isChecked();
 				
 				if (vendorID == 0 || apiKey.isEmpty() || currency.isEmpty()) {
 					Toast.makeText(getApplicationContext(), getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
 				}
 				else {
 					// save new values in preferences
-					
 				    SharedPreferences.Editor editor = settings.edit();
 				    editor.putInt("vendorID", vendorID);
 				    editor.putString("apiKey", apiKey);
 				    editor.putString("currency", currency);
-				    editor.commit();
-				    
-			    	/*AppWidgetManager man = AppWidgetManager.getInstance(getApplicationContext());
-			    	int[] appWidgetIds = man.getAppWidgetIds(new ComponentName(getApplicationContext(), WidgetProvider.class));
-			    	if (appWidgetIds.length == 0) {
-			    		TransactionsUtil.update(getApplicationContext(), new ICallback() {
-							public void onSuccess(float newBalance){}
-							public void onFailure(String error){}
-			    		});
-			    	}
-			    	else {
-			    		WidgetProvider.forceWidgetUpdate(getApplicationContext());
-			    	}*/
-					
-					
+				    editor.putBoolean("vibration", vibration);
+				    editor.commit();					
 					
 	                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 	                intent.putExtra(MainActivity.REDIRECT_OPTIONS, true);
 	                startActivity(intent);
 				}
-					
 			}
 		});
 	}

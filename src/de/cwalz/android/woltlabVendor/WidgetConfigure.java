@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,10 +56,12 @@ public class WidgetConfigure extends Activity {
 				TextView vendorIDTextView = (TextView) findViewById(R.id.vendorID);
 				TextView apiKeyTextView = (TextView) findViewById(R.id.apiKey);
 				Spinner currencySpinner = (Spinner) findViewById(R.id.currencySpinner);
+				CheckBox vibrationView = (CheckBox) findViewById(R.id.vibration);
 				
 				int vendorID = !vendorIDTextView.getText().toString().isEmpty() ? Integer.parseInt(vendorIDTextView.getText().toString().trim()) : 0;
 				String apiKey = apiKeyTextView.getText().toString().trim();
 				String currency = currencySpinner.getSelectedItem().toString();
+		        boolean vibration = vibrationView.isChecked();
 				
 				if (vendorID == 0 || apiKey.isEmpty() || currency.isEmpty()) {
 					Toast.makeText(getApplicationContext(), getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
@@ -70,6 +73,7 @@ public class WidgetConfigure extends Activity {
 				    editor.putInt("vendorID", vendorID);
 				    editor.putString("apiKey", apiKey);
 				    editor.putString("currency", currency);
+				    editor.putBoolean("vibration", vibration);
 				    editor.commit();
 
 				    // Update the widget

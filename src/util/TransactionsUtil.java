@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -29,6 +30,8 @@ import de.cwalz.android.woltlabVendor.R;
 import de.cwalz.android.woltlabVendor.WidgetProvider;
 
 public final class TransactionsUtil {
+	public static int VIBRATION_DURATION = 700;
+
 	public final static void update(final Context context, final ICallback callback) {
         // restore preferences
         SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
@@ -179,7 +182,8 @@ public final class TransactionsUtil {
     	// parse data
         SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
         String currency = settings.getString("currency", "EUR");
-        
+        boolean vibration = settings.getBoolean("vibration", false);
+
     	int length = transactions.length();
     	int sales = 0;
     	float credit = 0;
@@ -200,26 +204,30 @@ public final class TransactionsUtil {
 	    	}
     	} catch (JSONException e) {
 			e.printStackTrace();
-		}
+		}  
     	
     	if (sales > 0 && credit > 0) {
+    		Log.i("TransactionID/NotifyID", String.valueOf(lastTransactionID));
+    		
+    		// vibrate
+    		if (vibration) {
+    			 Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+    			 v.vibrate(VIBRATION_DURATION);
+    		}
+    		
 	    	// build notification
-	    	NotificationManager mNotificationManager = (NotificationManager)
-	    			context.getSystemService(Context.NOTIFICATION_SERVICE);
+	    	NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 	
-	        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-	                new Intent(context, MainActivity.class), 0);
+	        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
 	        
 	        Resources res = context.getResources();
 	        
-	        NotificationCompat.Builder mBuilder =
-	                new NotificationCompat.Builder(context)
-	        .setSmallIcon(R.drawable.icon)
+	        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+	        mBuilder.setSmallIcon(R.drawable.icon)
 	        .setContentTitle(context.getString(R.string.notificationTitle))
 	        .setAutoCancel(true)
-	        .setContentText(res.getQuantityString(R.plurals.notificationText, sales, sales, credit, currency));
-	
-	        mBuilder.setContentIntent(contentIntent);
+	        .setContentText(res.getQuantityString(R.plurals.notificationText, sales, sales, credit, currency))
+	        .setContentIntent(contentIntent);
 	        mNotificationManager.notify(lastTransactionID, mBuilder.build());
     	}
     }

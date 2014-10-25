@@ -21,7 +21,7 @@
         <item quantity="one">Ein neuer Verkauf (%2$.2f %3$s)</item>
         <item quantity="other">%1$d neue Verkäufe (%2$.2f %3$s)</item>
     </plurals>
-
+	<string name="vibration">Vibration bei Benachrichtigung über neue Verkäufe</string>
     <string-array name="currency_array">
         <item>EUR</item>
         <item>USD</item>
