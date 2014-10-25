@@ -16,6 +16,7 @@ public class WidgetProvider extends AppWidgetProvider {
     public static final String PREFS_NAME = "de.cwalz.android.woltlabVendor.PREFS";
     public static final String LOG_TAG = "de.cwalz.android.woltlabVendor.LOG_TAG";
     public static final String LOADING_STRING = "...";
+    public static final int ALARM_ID = 6969;
     
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
     	super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -42,8 +43,9 @@ public class WidgetProvider extends AppWidgetProvider {
         if (vendorID == 0 || apiKey.isEmpty()) {
         	Log.i(WidgetProvider.LOG_TAG, "Configuration not done yet, return");
         	return;
-        }
+        }        
         
+        // update widget
         TransactionsUtil.updateBalance(LOADING_STRING, context);
         TransactionsUtil.update(context, new ICallback() {
         	public void onSuccess(float newBalance) {

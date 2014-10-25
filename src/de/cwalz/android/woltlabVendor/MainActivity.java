@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +21,6 @@ import android.widget.TextView;
 import data.Transaction;
 
 public class MainActivity extends ListActivity {
-	public static final String REDIRECT_OPTIONS = "de.cwalz.android.woltlabVendor.REDIRECT_OPTIONS";
 	private TransactionsDataSource datasource;
 	TransactionsAdapter transactionsAdapter;
 	List<Transaction> transactions = new ArrayList<Transaction>();
@@ -48,33 +48,20 @@ public class MainActivity extends ListActivity {
         currency = settings.getString("currency", "EUR");
         
         datasource = new TransactionsDataSource(this);
+
+	    transactionsAdapter = new TransactionsAdapter(this, R.layout.transaction_list, transactions);
+	    setListAdapter(transactionsAdapter);
+	    
+        int vendorID = settings.getInt("vendorID", 0);
+        String apiKey = settings.getString("apiKey", "");
+                
+        // return false if configuration is not done yet
+        if (vendorID == 0 || apiKey.isEmpty()) {
+        	Log.i(WidgetProvider.LOG_TAG, "Configuration not done yet, return");
+        	return;
+        }
         
-
-		Bundle extras = getIntent().getExtras();
-		boolean redirect = false;
-		if (extras != null) {
-			redirect = extras.getBoolean(REDIRECT_OPTIONS);
-		}
-
-		if (redirect) {
-	        transactionsAdapter = new TransactionsAdapter(this, R.layout.transaction_list, transactions);
-	        setListAdapter(transactionsAdapter);
-			refresh();
-		}
-		else {
-	        // get all transactions
-	        datasource.open();
-	        transactions = datasource.getList();
-	        datasource.close();
-	        
-	        transactionsAdapter = new TransactionsAdapter(this, R.layout.transaction_list, transactions);
-	        setListAdapter(transactionsAdapter);
-	        
-	        if (transactions.size() > 0) {           
-	            balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
-	            balanceView.setVisibility(View.VISIBLE);
-	        }
-		}
+	    refresh();
     }
     
     @Override

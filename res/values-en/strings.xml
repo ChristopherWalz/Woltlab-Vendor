@@ -26,4 +26,12 @@
         <item>EUR</item>
         <item>USD</item>
     </string-array>
+    <string-array name="widget_interval_titles">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
+    </string-array>
+    <string name="interval">Refresh interval</string>
 </resources>

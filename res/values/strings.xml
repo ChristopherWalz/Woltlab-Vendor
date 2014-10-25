@@ -26,4 +26,12 @@
         <item>EUR</item>
         <item>USD</item>
     </string-array>
+    <string-array name="widget_interval_titles">
+        <item>5 Minuten</item>
+        <item>10 Minuten</item>
+        <item>20 Minuten</item>
+        <item>30 Minuten</item>
+        <item>60 Minuten</item>
+    </string-array>
+    <string name="interval">Aktualisierungsintervall</string>
 </resources>

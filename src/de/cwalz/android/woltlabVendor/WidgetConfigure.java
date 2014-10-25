@@ -1,5 +1,9 @@
 package de.cwalz.android.woltlabVendor;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+
+import util.AlarmUtil;
 import util.TransactionsUtil;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -55,12 +59,20 @@ public class WidgetConfigure extends Activity {
 			public void onClick(View arg0) {
 				TextView vendorIDTextView = (TextView) findViewById(R.id.vendorID);
 				TextView apiKeyTextView = (TextView) findViewById(R.id.apiKey);
-				Spinner currencySpinner = (Spinner) findViewById(R.id.currencySpinner);
+				Spinner currencySpinner = (Spinner) findViewById(R.id.currency);
+				Spinner intervalView = (Spinner) findViewById(R.id.widgetInterval);
 				CheckBox vibrationView = (CheckBox) findViewById(R.id.vibration);
 				
 				int vendorID = !vendorIDTextView.getText().toString().isEmpty() ? Integer.parseInt(vendorIDTextView.getText().toString().trim()) : 0;
 				String apiKey = apiKeyTextView.getText().toString().trim();
 				String currency = currencySpinner.getSelectedItem().toString();
+				
+				// get interval time
+				int interval = 20;
+				try {
+					interval = NumberFormat.getInstance().parse(intervalView.getSelectedItem().toString()).intValue();
+				} catch (ParseException e) {} 
+				
 		        boolean vibration = vibrationView.isChecked();
 				
 				if (vendorID == 0 || apiKey.isEmpty() || currency.isEmpty()) {
@@ -73,11 +85,12 @@ public class WidgetConfigure extends Activity {
 				    editor.putInt("vendorID", vendorID);
 				    editor.putString("apiKey", apiKey);
 				    editor.putString("currency", currency);
+				    editor.putInt("interval", interval);
 				    editor.putBoolean("vibration", vibration);
 				    editor.commit();
 
-				    // Update the widget
-					WidgetProvider.forceWidgetUpdate(getApplicationContext());
+				    // save new alarm
+				    AlarmUtil.start(WidgetProvider.ALARM_ID, interval, getApplicationContext());
 					
 					Intent resultValue = new Intent();
 					resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);

@@ -3,7 +3,7 @@
     android:minWidth="120dp"
     android:minHeight="40dp"
     android:widgetCategory="home_screen"
-    android:updatePeriodMillis="3600000"
+    android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget"
     android:previewImage="@drawable/preview"
     android:configure="de.cwalz.android.woltlabVendor.WidgetConfigure">
