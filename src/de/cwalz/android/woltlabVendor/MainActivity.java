@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sql.TransactionsDataSource;
+import util.NetworkUtil;
 import util.TransactionsUtil;
 import adapter.TransactionsAdapter;
 import android.app.ListActivity;
@@ -81,7 +82,7 @@ public class MainActivity extends ListActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-            	refresh();
+            		refresh();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -89,6 +90,11 @@ public class MainActivity extends ListActivity {
     }
     
     private void refresh() {
+    	// return if no network is available
+    	if (!NetworkUtil.hasInternetConnection(this)) {
+    		return;
+    	}
+
     	getListView().setVisibility(View.GONE);
     	balanceView.setVisibility(View.GONE);
     	emptyView.setVisibility(View.GONE);

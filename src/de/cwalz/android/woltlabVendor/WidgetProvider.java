@@ -1,5 +1,6 @@
 package de.cwalz.android.woltlabVendor;
 
+import util.NetworkUtil;
 import util.TransactionsUtil;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -20,6 +21,11 @@ public class WidgetProvider extends AppWidgetProvider {
     
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
     	super.onUpdate(context, appWidgetManager, appWidgetIds);
+    	
+    	// return if no network is available
+    	if (!NetworkUtil.hasInternetConnection(context)) {
+    		return;
+    	}
     	
         for (int appWidgetID : appWidgetIds) {
             // Create an Intent to launch ExampleActivity
