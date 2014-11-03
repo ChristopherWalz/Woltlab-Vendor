@@ -76,11 +76,11 @@ public class WidgetConfigure extends Activity {
 		        boolean vibration = vibrationView.isChecked();
 				
 				if (vendorID == 0 || apiKey.isEmpty() || currency.isEmpty()) {
-					Toast.makeText(getApplicationContext(), getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
+					Toast.makeText(WidgetConfigure.this, getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
 				}
 				else {
 					// save new values in preferences
-					SharedPreferences settings = getApplicationContext().getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+					SharedPreferences settings = WidgetConfigure.this.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
 				    SharedPreferences.Editor editor = settings.edit();
 				    editor.putInt("vendorID", vendorID);
 				    editor.putString("apiKey", apiKey);
@@ -90,12 +90,17 @@ public class WidgetConfigure extends Activity {
 				    editor.commit();
 
 				    // save new alarm
-				    AlarmUtil.start(WidgetProvider.ALARM_ID, interval, getApplicationContext());
+				    AlarmUtil.start(WidgetProvider.ALARM_ID, interval, WidgetConfigure.this);
 					
-					Intent resultValue = new Intent();
-					resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-					setResult(RESULT_OK, resultValue);
-					finish();
+		            // Push widget update to surface with newly set prefix
+		            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(WidgetConfigure.this);
+		            WidgetProvider.updateAppWidget(WidgetConfigure.this, appWidgetManager, new int[] {mAppWidgetId});
+
+		            // Make sure we pass back the original appWidgetId
+		            Intent resultValue = new Intent();
+		            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+		            setResult(RESULT_OK, resultValue);
+		            finish();
 				}
 					
 			}

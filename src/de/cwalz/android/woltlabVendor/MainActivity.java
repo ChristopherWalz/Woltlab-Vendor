@@ -49,6 +49,9 @@ public class MainActivity extends ListActivity {
         currency = settings.getString("currency", "EUR");
         
         datasource = new TransactionsDataSource(this);
+		datasource.open();
+		transactions.addAll(datasource.getList());
+		datasource.close();
 
 	    transactionsAdapter = new TransactionsAdapter(this, R.layout.transaction_list, transactions);
 	    setListAdapter(transactionsAdapter);

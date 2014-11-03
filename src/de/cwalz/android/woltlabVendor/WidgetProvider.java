@@ -21,26 +21,27 @@ public class WidgetProvider extends AppWidgetProvider {
     
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
     	super.onUpdate(context, appWidgetManager, appWidgetIds);
-    	
-    	// return if no network is available
     	if (!NetworkUtil.hasInternetConnection(context)) {
     		return;
     	}
-    	
-        for (int appWidgetID : appWidgetIds) {
-            // Create an Intent to launch ExampleActivity
-            Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-            // Get the layout for the App Widget and attach an on-click listener
-            // to the button
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-            views.setOnClickPendingIntent(R.id.layoutContainer, pendingIntent);
-
-            // Tell the AppWidgetManager to perform an update on the current app widget
-            appWidgetManager.updateAppWidget(appWidgetID, views);
+        updateAppWidget(context, appWidgetManager, appWidgetIds);
+    }
+    
+    public static void updateAppWidget(final Context context, AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
+    	for (int appWidgetID : appWidgetIds) {
+	        // Create an Intent to launch ExampleActivity
+	        Intent intent = new Intent(context, MainActivity.class);
+	        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+	
+	        // Get the layout for the App Widget and attach an on-click listener
+	        // to the button
+	        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+	        views.setOnClickPendingIntent(R.id.layoutContainer, pendingIntent);
+	
+	        // Tell the AppWidgetManager to perform an update on the current app widget
+	        appWidgetManager.updateAppWidget(appWidgetID, views);
         }
-        
+    	
         SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);        
         final int vendorID = settings.getInt("vendorID", 0);
         final String apiKey = settings.getString("apiKey", "");
