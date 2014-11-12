@@ -117,52 +117,43 @@ public class MainActivity extends ListActivity {
 				transactionsAdapter.notifyDataSetChanged();
 
 				// show views
-				runOnUiThread(new Runnable() {
-					public void run() {
-						loadingView.setVisibility(View.GONE);
-						getListView().setVisibility(View.VISIBLE);
-						balanceView.setVisibility(View.VISIBLE);
-						if (transactions.size() == 0) {
-							emptyView.setVisibility(View.VISIBLE);
-						} else {
-							if (newBalance > balance) {
-								// update shared prefs
-								settings = MainActivity.this.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-								SharedPreferences.Editor editor = settings.edit();
-								editor.putFloat("balance", newBalance);
-								editor.commit();
+				loadingView.setVisibility(View.GONE);
+				getListView().setVisibility(View.VISIBLE);
+				balanceView.setVisibility(View.VISIBLE);
+				
+				if (transactions.size() == 0) {
+					emptyView.setVisibility(View.VISIBLE);
+				} else {
+					if (newBalance > balance) {
+						// update shared prefs
+						settings = MainActivity.this.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+						SharedPreferences.Editor editor = settings.edit();
+						editor.putFloat("balance", newBalance);
+						editor.commit();
 
-								// update view
-								balanceView.setText(getString(R.string.currentBalance) + " " + currency + " "
-										+ newBalance);
+						// update view
+						balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + newBalance);
 
-								// update widget
-								TransactionsUtil.updateBalance(String.valueOf(newBalance), MainActivity.this);
-							}
-							if (balanceView.getText().toString().isEmpty()) {
-								balanceView
-										.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
-
-								// update widget
-								TransactionsUtil.updateBalance(String.valueOf(balance), MainActivity.this);
-							}
-						}
+						// update widget
+						TransactionsUtil.updateBalance(String.valueOf(newBalance), MainActivity.this);
 					}
-				});
+					if (balanceView.getText().toString().isEmpty()) {
+						balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
+
+						// update widget
+						TransactionsUtil.updateBalance(String.valueOf(balance), MainActivity.this);
+					}
+				}
 			}
 
 			public void onFailure(String error) {
 				// show views
-				runOnUiThread(new Runnable() {
-					public void run() {
-						loadingView.setVisibility(View.GONE);
-						getListView().setVisibility(View.VISIBLE);
-						balanceView.setVisibility(View.VISIBLE);
-						if (transactions.size() == 0) {
-							emptyView.setVisibility(View.VISIBLE);
-						}
-					}
-				});
+				loadingView.setVisibility(View.GONE);
+				getListView().setVisibility(View.VISIBLE);
+				balanceView.setVisibility(View.VISIBLE);
+				if (transactions.size() == 0) {
+					emptyView.setVisibility(View.VISIBLE);
+				}
 			}
 		});
 	}
