@@ -114,6 +114,7 @@ public class MainActivity extends ListActivity {
 				datasource.open();
 				transactions.addAll(datasource.getList());
 				datasource.close();
+				transactionsAdapter.notifyDataSetChanged();
 
 				// show views
 				runOnUiThread(new Runnable() {
