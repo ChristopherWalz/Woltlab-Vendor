@@ -35,7 +35,7 @@ public class OptionsActivity extends Activity {
 		apiKeyTextView = (TextView) findViewById(R.id.apiKey);
 		intervalView = (Spinner) findViewById(R.id.widgetInterval);
 		vibrationView = (CheckBox) findViewById(R.id.vibration);
-		settings = getApplicationContext().getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+		settings = getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
 		int vendorID = settings.getInt("vendorID", 0);
 		String apiKey = settings.getString("apiKey", "");
 		int interval = settings.getInt("interval", 20);
@@ -98,7 +98,7 @@ public class OptionsActivity extends Activity {
 				boolean vibration = vibrationView.isChecked();
 
 				if (vendorID == 0 || apiKey.isEmpty() || currency.isEmpty()) {
-					Toast.makeText(getApplicationContext(), getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
+					Toast.makeText(OptionsActivity.this, getString(R.string.emptyForm), Toast.LENGTH_SHORT).show();
 				} else {
 					// save new values in preferences
 					SharedPreferences.Editor editor = settings.edit();
@@ -110,9 +110,9 @@ public class OptionsActivity extends Activity {
 					editor.commit();
 
 					// save new alarm
-					AlarmUtil.start(WidgetProvider.ALARM_ID, interval, getApplicationContext());
+					AlarmUtil.start(WidgetProvider.ALARM_ID, interval, OptionsActivity.this);
 
-					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+					Intent intent = new Intent(OptionsActivity.this, MainActivity.class);
 					startActivity(intent);
 				}
 			}

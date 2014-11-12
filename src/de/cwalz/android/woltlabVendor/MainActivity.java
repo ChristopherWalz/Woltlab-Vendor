@@ -8,7 +8,6 @@ import util.NetworkUtil;
 import util.TransactionsUtil;
 import adapter.TransactionsAdapter;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -81,7 +80,7 @@ public class MainActivity extends ListActivity {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 			case R.id.action_settings:
-				Intent intent = new Intent(getApplicationContext(), OptionsActivity.class);
+				Intent intent = new Intent(this, OptionsActivity.class);
 				startActivity(intent);
 				return true;
 			case R.id.action_refresh:
@@ -107,12 +106,10 @@ public class MainActivity extends ListActivity {
 		// will only be called once and not when action_refresh is clicked)
 		balance = settings.getFloat("balance", 0);
 
-		final Context context = getApplicationContext();
-
 		// clear current list
 		transactions.clear();
 
-		TransactionsUtil.update(context, new ICallback() {
+		TransactionsUtil.update(this, new ICallback() {
 			public void onSuccess(final float newBalance) {
 				datasource.open();
 				transactions.addAll(datasource.getList());
@@ -129,7 +126,7 @@ public class MainActivity extends ListActivity {
 						} else {
 							if (newBalance > balance) {
 								// update shared prefs
-								settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+								settings = MainActivity.this.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
 								SharedPreferences.Editor editor = settings.edit();
 								editor.putFloat("balance", newBalance);
 								editor.commit();
@@ -139,14 +136,14 @@ public class MainActivity extends ListActivity {
 										+ newBalance);
 
 								// update widget
-								TransactionsUtil.updateBalance(String.valueOf(newBalance), context);
+								TransactionsUtil.updateBalance(String.valueOf(newBalance), MainActivity.this);
 							}
 							if (balanceView.getText().toString().isEmpty()) {
 								balanceView
 										.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
 
 								// update widget
-								TransactionsUtil.updateBalance(String.valueOf(balance), context);
+								TransactionsUtil.updateBalance(String.valueOf(balance), MainActivity.this);
 							}
 						}
 					}

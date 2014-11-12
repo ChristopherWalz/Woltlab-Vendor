@@ -32,7 +32,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	public static MySQLiteHelper getInstance(Context ctx) {
 		if (instance == null) {
-			instance = new MySQLiteHelper(ctx.getApplicationContext());
+			instance = new MySQLiteHelper(ctx);
 		}
 		return instance;
 	}
