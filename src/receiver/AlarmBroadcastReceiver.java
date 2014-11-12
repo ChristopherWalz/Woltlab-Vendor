@@ -9,8 +9,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-	    // Update the widget
+		// Update the widget
 		WidgetProvider.forceWidgetUpdate(context);
-	}	
+	}
 
 }
