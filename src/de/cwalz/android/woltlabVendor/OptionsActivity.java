@@ -23,6 +23,7 @@ public class OptionsActivity extends Activity {
 	private TextView apiKeyTextView;
 	private Spinner intervalView;
 	private CheckBox vibrationView;
+	Spinner currencyView;
 	private SharedPreferences settings;
 
 	@Override
@@ -35,9 +36,12 @@ public class OptionsActivity extends Activity {
 		apiKeyTextView = (TextView) findViewById(R.id.apiKey);
 		intervalView = (Spinner) findViewById(R.id.widgetInterval);
 		vibrationView = (CheckBox) findViewById(R.id.vibration);
+		currencyView = (Spinner) findViewById(R.id.currency);
+
 		settings = getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
 		int vendorID = settings.getInt("vendorID", 0);
 		String apiKey = settings.getString("apiKey", "");
+		String currency = settings.getString("currency", "EUR");
 		int interval = settings.getInt("interval", 20);
 		boolean vibration = settings.getBoolean("vibration", false);
 
@@ -46,6 +50,10 @@ public class OptionsActivity extends Activity {
 		}
 		if (!apiKey.isEmpty()) {
 			apiKeyTextView.setText(apiKey);
+		}
+		
+		if (currency.equals("USD")) {
+			currencyView.setSelection(1);
 		}
 
 		if (vibration) {
@@ -79,7 +87,6 @@ public class OptionsActivity extends Activity {
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
 
-				Spinner currencyView = (Spinner) findViewById(R.id.currency);
 				int vendorID = 0;
 				try {
 					vendorID = Integer.parseInt(vendorIDTextView.getText().toString().trim());
