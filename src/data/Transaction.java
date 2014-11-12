@@ -1,13 +1,13 @@
 package data;
 
 public class Transaction {
-	private int transactionID;
-	private int fileID;
-	private String reason;
-	private int time;
-	private int withdrawal;
-	private int woltlabID;
-	private float balance;
+	private int transactionID = 0;
+	private int fileID = 0;
+	private String reason = "";
+	private int time = 0;
+	private int withdrawal = 0;
+	private int woltlabID = 0;
+	private float balance = 0.f;
 
 	public int getTransactionID() {
 		return transactionID;
