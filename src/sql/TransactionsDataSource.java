@@ -87,16 +87,28 @@ public class TransactionsDataSource {
 		return transactions;
 	}
 
+	public Transaction getLastTransaction() {
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_TRANSACTIONS, allColumns, null, null, null, null,
+				MySQLiteHelper.COLUMN_ID + " DESC", "1");
+
+		if (!cursor.moveToFirst()) {
+			Transaction emptyTransaction = new Transaction();
+			return emptyTransaction;
+		}
+
+		return cursorToTransaction(cursor);
+	}
+
 	private Transaction cursorToTransaction(Cursor cursor) {
 		Transaction transaction = new Transaction();
 
-		transaction.setTransactionID(cursor.getInt(0));
-		transaction.setFileID(cursor.getInt(1));
-		transaction.setReason(cursor.getString(2));
-		transaction.setTime(cursor.getInt(3));
-		transaction.setWithdrawal(cursor.getInt(4));
-		transaction.setWoltlabID(cursor.getInt(5));
-		transaction.setBalance(cursor.getFloat(6));
+		transaction.setTransactionID(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
+		transaction.setFileID(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_FILEID)));
+		transaction.setReason(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_REASON)));
+		transaction.setTime(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TIME)));
+		transaction.setWithdrawal(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_WITHDRAWAL)));
+		transaction.setWoltlabID(cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.COLUMN_WOLTLABID)));
+		transaction.setBalance(cursor.getFloat(cursor.getColumnIndex(MySQLiteHelper.COLUMN_BALANCE)));
 
 		return transaction;
 	}
