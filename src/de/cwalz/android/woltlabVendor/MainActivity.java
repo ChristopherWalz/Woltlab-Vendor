@@ -24,8 +24,8 @@ public class MainActivity extends ListActivity {
 	private TransactionsDataSource datasource;
 	TransactionsAdapter transactionsAdapter;
 	List<Transaction> transactions = new ArrayList<Transaction>();
-	float balance;
-	String currency;
+	float balance = 0;
+	String currency = "EUR";
 	SharedPreferences settings;
 
 	// views
@@ -42,13 +42,16 @@ public class MainActivity extends ListActivity {
 		balanceView = (TextView) findViewById(R.id.balance);
 		emptyView = (TextView) getListView().getEmptyView();
 
-		// set current balance and currency
-		settings = getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-		balance = settings.getFloat("balance", 0);
-		currency = settings.getString("currency", "EUR");
-
 		datasource = new TransactionsDataSource(this);
 		datasource.open();
+
+		Transaction lastTransaction = datasource.getLastTransaction();
+
+		// set current balance and currency
+		balance = lastTransaction.getBalance();
+		settings = getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
+		currency = settings.getString("currency", "EUR");
+
 		transactions.addAll(datasource.getList());
 		datasource.close();
 
@@ -104,7 +107,10 @@ public class MainActivity extends ListActivity {
 
 		// get new balance from shared preferences (necessary because onCreate
 		// will only be called once and not when action_refresh is clicked)
-		balance = settings.getFloat("balance", 0);
+		datasource.open();
+		Transaction lastTransaction = datasource.getLastTransaction();
+		datasource.close();
+		balance = lastTransaction.getBalance();
 
 		// clear current list
 		transactions.clear();
@@ -114,46 +120,53 @@ public class MainActivity extends ListActivity {
 				datasource.open();
 				transactions.addAll(datasource.getList());
 				datasource.close();
-				transactionsAdapter.notifyDataSetChanged();
 
-				// show views
-				loadingView.setVisibility(View.GONE);
-				getListView().setVisibility(View.VISIBLE);
-				balanceView.setVisibility(View.VISIBLE);
-				
-				if (transactions.size() == 0) {
-					emptyView.setVisibility(View.VISIBLE);
-				} else {
-					if (newBalance > balance) {
-						// update shared prefs
-						settings = MainActivity.this.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-						SharedPreferences.Editor editor = settings.edit();
-						editor.putFloat("balance", newBalance);
-						editor.commit();
+				runOnUiThread(new Runnable() {
+					public void run() {
+						transactionsAdapter.notifyDataSetChanged();
 
-						// update view
-						balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + newBalance);
+						// show views
+						loadingView.setVisibility(View.GONE);
+						getListView().setVisibility(View.VISIBLE);
+						balanceView.setVisibility(View.VISIBLE);
 
-						// update widget
-						TransactionsUtil.updateBalance(String.valueOf(newBalance), MainActivity.this);
+						if (transactions.size() == 0) {
+							emptyView.setVisibility(View.VISIBLE);
+						} else {
+							if (newBalance > balance) {
+								// update view
+								balanceView.setText(getString(R.string.currentBalance) + " " + currency + " "
+										+ newBalance);
+
+								// update widget
+								TransactionsUtil.updateBalance(String.valueOf(newBalance), MainActivity.this);
+							}
+							if (balanceView.getText().toString().isEmpty()) {
+								balanceView
+										.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
+
+								// update widget
+								TransactionsUtil.updateBalance(String.valueOf(balance), MainActivity.this);
+							}
+						}
 					}
-					if (balanceView.getText().toString().isEmpty()) {
-						balanceView.setText(getString(R.string.currentBalance) + " " + currency + " " + balance);
+				});
 
-						// update widget
-						TransactionsUtil.updateBalance(String.valueOf(balance), MainActivity.this);
-					}
-				}
 			}
 
 			public void onFailure(String error) {
-				// show views
-				loadingView.setVisibility(View.GONE);
-				getListView().setVisibility(View.VISIBLE);
-				balanceView.setVisibility(View.VISIBLE);
-				if (transactions.size() == 0) {
-					emptyView.setVisibility(View.VISIBLE);
-				}
+				runOnUiThread(new Runnable() {
+					public void run() {
+						// show views
+						loadingView.setVisibility(View.GONE);
+						getListView().setVisibility(View.VISIBLE);
+						balanceView.setVisibility(View.VISIBLE);
+						if (transactions.size() == 0) {
+							emptyView.setVisibility(View.VISIBLE);
+						}
+					}
+				});
+
 			}
 		});
 	}

@@ -3,6 +3,9 @@ package de.cwalz.android.woltlabVendor;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+import data.Transaction;
+
+import sql.TransactionsDataSource;
 import util.AlarmUtil;
 import util.TransactionsUtil;
 import android.app.Activity;
@@ -41,7 +44,14 @@ public class WidgetConfigure extends Activity {
 		SharedPreferences settings = getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
 		int vendorID = settings.getInt("vendorID", 0);
 		String apiKey = settings.getString("apiKey", "");
-		float balance = settings.getFloat("balance", 0);
+		float balance = 0;
+		
+		TransactionsDataSource datasource = new TransactionsDataSource(this);
+		datasource.open();
+		Transaction lastTransaction = datasource.getLastTransaction();
+		datasource.close();
+		
+		balance = lastTransaction.getBalance();
 
 		if (vendorID != 0 && !apiKey.isEmpty()) {
 			TransactionsUtil.updateBalance(String.valueOf(balance), this);

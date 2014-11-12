@@ -1,5 +1,7 @@
 package de.cwalz.android.woltlabVendor;
 
+import data.Transaction;
+import sql.TransactionsDataSource;
 import util.NetworkUtil;
 import util.TransactionsUtil;
 import android.app.PendingIntent;
@@ -60,19 +62,30 @@ public class WidgetProvider extends AppWidgetProvider {
 		// update widget
 		TransactionsUtil.updateBalance(LOADING_STRING, context);
 		TransactionsUtil.update(context, new ICallback() {
+			float balance = 0;
+
 			public void onSuccess(float newBalance) {
 				if (newBalance != 0) {
 					TransactionsUtil.updateBalance(String.valueOf(newBalance), context);
 				} else {
-					SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-					float balance = settings.getFloat("balance", 0.f);
+					TransactionsDataSource datasource = new TransactionsDataSource(context);
+					datasource.open();
+					Transaction lastTransaction = datasource.getLastTransaction();
+					datasource.close();
+
+					balance = lastTransaction.getBalance();
+
 					TransactionsUtil.updateBalance(String.valueOf(balance), context);
 				}
 			}
 
 			public void onFailure(String error) {
-				SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-				float balance = settings.getFloat("balance", 0.f);
+				TransactionsDataSource datasource = new TransactionsDataSource(context);
+				datasource.open();
+				Transaction lastTransaction = datasource.getLastTransaction();
+				datasource.close();
+
+				balance = lastTransaction.getBalance();
 				TransactionsUtil.updateBalance(String.valueOf(balance), context);
 			}
 		});
