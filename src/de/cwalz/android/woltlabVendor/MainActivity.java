@@ -111,12 +111,16 @@ public class MainActivity extends ListActivity {
 		Transaction lastTransaction = datasource.getLastTransaction();
 		datasource.close();
 		balance = lastTransaction.getBalance();
+		balanceView.setText(getString(R.string.currentBalance) + " " + currency + " "
+				+ balance);
 
-		// clear current list
-		transactions.clear();
+
 
 		TransactionsUtil.update(this, new ICallback() {
 			public void onSuccess(final float newBalance) {
+				// clear current list
+				transactions.clear();
+				
 				datasource.open();
 				transactions.addAll(datasource.getList());
 				datasource.close();

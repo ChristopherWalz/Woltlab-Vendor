@@ -67,6 +67,12 @@ public final class TransactionsUtil {
 						Log.i(WidgetProvider.LOG_TAG, "lastTransactionID: " + lastTransactionID);
 					}
 
+					@Override
+					public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+							JSONObject errorResponse) {
+						callback.onFailure(throwable.getMessage());
+					}
+
 					public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 						int status = 0;
 						int count = 0;
@@ -100,14 +106,6 @@ public final class TransactionsUtil {
 
 									newBalance = (float) lastTransaction.getDouble("balance");
 									newLastTransactionID = lastTransaction.getInt("transactionID");
-
-									// save new values in preferences
-									SharedPreferences settings = context.getSharedPreferences(
-											WidgetProvider.PREFS_NAME, 0);
-									SharedPreferences.Editor editor = settings.edit();
-									editor.putInt("lastTransactionID", newLastTransactionID);
-									editor.putFloat("balance", newBalance);
-									editor.commit();
 
 									// save transactions to database (separate
 									// thread, this will take some time on
