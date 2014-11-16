@@ -17,11 +17,14 @@
     <string name="title_activity_options">Options</string>
     <string name="configurationNotDone">The configuration (woltlabID and vendorID) is missing.</string>
     <string name="notificationTitle">New sales</string>
+
     <plurals name="notificationText">
         <item quantity="one">One new sale (%2$.2f %3$s)</item>
         <item quantity="other">%1$d new sales (%2$.2f %3$s)</item>
     </plurals>
-	<string name="vibration">Vibrate on notification about new sales</string>
+
+    <string name="vibration">Vibrate on notification about new sales</string>
+
     <string-array name="currency_array">
         <item>EUR</item>
         <item>USD</item>
@@ -33,5 +36,7 @@
         <item>30 minutes</item>
         <item>60 minutes</item>
     </string-array>
+
     <string name="interval">Refresh interval</string>
+
 </resources>

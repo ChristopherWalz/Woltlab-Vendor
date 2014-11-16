@@ -1,68 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5dp">
+    android:orientation="vertical"
+    android:padding="5dp" >
 
-          	<TextView 
-          	    android:layout_width="fill_parent"
-          	    android:layout_height="wrap_content" 
-                android:text="@string/vendorID"/>
-          	
-          	<EditText android:id="@+id/vendorID"
-                android:singleLine="true"
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content" 
-                android:layout_width="fill_parent" 
-                android:inputType="text" />
-            
-          	<TextView 
-          	    android:layout_width="fill_parent"
-          	    android:layout_height="wrap_content" 
-                android:text="@string/apiKey" />
-          	
-          	<EditText android:id="@+id/apiKey"
-                android:singleLine="true"
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content" 
-                android:layout_width="fill_parent" 
-                android:inputType="text" />
-          	
-          	<TextView 
-          	    android:layout_width="fill_parent"
-          	    android:layout_height="wrap_content" 
-                android:text="@string/currency"/>
-    
-		    <Spinner
-		    	android:id="@+id/currency"
-		    	android:entries="@array/currency_array"
-		    	android:layout_width="fill_parent"
-		    	android:layout_marginBottom="20dp"
-		    	android:layout_height="wrap_content" />
-		    
-          	<TextView 
-          	    android:layout_width="fill_parent"
-          	    android:layout_height="wrap_content" 
-                android:text="@string/interval"/>
-		    
-		    <Spinner
-		    	android:id="@+id/widgetInterval"
-		        android:entries="@array/widget_interval_titles"
-		        android:layout_marginBottom="20dp"
-		    	android:layout_width="fill_parent"
-		    	android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/vendorID" />
 
-		    <CheckBox
-		        android:id="@+id/vibration"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/vibration" />
+    <EditText
+        android:id="@+id/vendorID"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:inputType="text"
+        android:singleLine="true" />
 
-            <Button
-                android:id="@+id/save"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/save" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/apiKey" />
+
+    <EditText
+        android:id="@+id/apiKey"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/currency" />
+
+    <Spinner
+        android:id="@+id/currency"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:entries="@array/currency_array" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/interval" />
+
+    <Spinner
+        android:id="@+id/widgetInterval"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:entries="@array/widget_interval_titles" />
+
+    <CheckBox
+        android:id="@+id/vibration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vibration" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/save" />
+
 </LinearLayout>

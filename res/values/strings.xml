@@ -17,11 +17,14 @@
     <string name="title_activity_options">Optionen</string>
     <string name="configurationNotDone">Die Konfiguration (woltlabID und vendorID) ist noch fehlerhaft.</string>
     <string name="notificationTitle">Neue Verkäufe</string>
+
     <plurals name="notificationText">
         <item quantity="one">Ein neuer Verkauf (%2$.2f %3$s)</item>
         <item quantity="other">%1$d neue Verkäufe (%2$.2f %3$s)</item>
     </plurals>
-	<string name="vibration">Vibration bei Benachrichtigung über neue Verkäufe</string>
+
+    <string name="vibration">Vibration bei Benachrichtigung über neue Verkäufe</string>
+
     <string-array name="currency_array">
         <item>EUR</item>
         <item>USD</item>
@@ -33,5 +36,7 @@
         <item>30 Minuten</item>
         <item>60 Minuten</item>
     </string-array>
+
     <string name="interval">Aktualisierungsintervall</string>
+
 </resources>

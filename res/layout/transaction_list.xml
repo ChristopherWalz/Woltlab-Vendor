@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
-    android:orientation="vertical" 
     android:layout_width="fill_parent"
-    android:paddingTop="4dp"
+    android:layout_height="48dp"
+    android:orientation="vertical"
     android:paddingBottom="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:layout_height="48dp">
-         
-     <TextView android:id="@+id/date"
+    android:paddingTop="4dp" >
+
+    <TextView
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:textColor="#ffffff"
         android:textSize="13sp" />
-     
-     <TextView android:id="@+id/balance"
+
+    <TextView
+        android:id="@+id/balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:textColor="#ffffff"
         android:textSize="13sp" />
-        
-     <TextView android:id="@+id/reason"
-        android:layout_below="@+id/date"
+
+    <TextView
+        android:id="@+id/reason"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true" 
+        android:layout_below="@+id/date"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"
+        android:layout_marginTop="-2dp"
+        android:singleLine="true"
         android:textColor="#ffffff"
         android:textSize="17sp"
-        android:layout_marginTop="-2dp" />
+        android:textStyle="bold" />
+
 </RelativeLayout>

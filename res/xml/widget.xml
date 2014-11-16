@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:minWidth="120dp"
-    android:minHeight="40dp"
-    android:widgetCategory="home_screen"
-    android:updatePeriodMillis="0"
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="de.cwalz.android.woltlabVendor.WidgetConfigure"
     android:initialLayout="@layout/widget"
+    android:minHeight="40dp"
+    android:minWidth="120dp"
     android:previewImage="@drawable/preview"
-    android:configure="de.cwalz.android.woltlabVendor.WidgetConfigure">
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" >
+
 </appwidget-provider>

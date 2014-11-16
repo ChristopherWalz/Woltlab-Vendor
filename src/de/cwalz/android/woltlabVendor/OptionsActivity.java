@@ -51,7 +51,7 @@ public class OptionsActivity extends Activity {
 		if (!apiKey.isEmpty()) {
 			apiKeyTextView.setText(apiKey);
 		}
-		
+
 		if (currency.equals("USD")) {
 			currencyView.setSelection(1);
 		}

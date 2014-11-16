@@ -45,12 +45,12 @@ public class WidgetConfigure extends Activity {
 		int vendorID = settings.getInt("vendorID", 0);
 		String apiKey = settings.getString("apiKey", "");
 		float balance = 0;
-		
+
 		TransactionsDataSource datasource = new TransactionsDataSource(this);
 		datasource.open();
 		Transaction lastTransaction = datasource.getLastTransaction();
 		datasource.close();
-		
+
 		balance = lastTransaction.getBalance();
 
 		if (vendorID != 0 && !apiKey.isEmpty()) {
