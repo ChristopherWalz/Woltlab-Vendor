@@ -60,6 +60,9 @@ public class WidgetConfigure extends Activity {
 			setResult(RESULT_OK, resultValue);
 			finish();
 		}
+		
+		final Spinner intervalView = (Spinner) findViewById(R.id.widgetInterval);
+		intervalView.setSelection(2);
 
 		// config
 		Button button = (Button) findViewById(R.id.save);
@@ -68,7 +71,7 @@ public class WidgetConfigure extends Activity {
 				TextView vendorIDTextView = (TextView) findViewById(R.id.vendorID);
 				TextView apiKeyTextView = (TextView) findViewById(R.id.apiKey);
 				Spinner currencySpinner = (Spinner) findViewById(R.id.currency);
-				Spinner intervalView = (Spinner) findViewById(R.id.widgetInterval);
+				
 				CheckBox vibrationView = (CheckBox) findViewById(R.id.vibration);
 
 				int vendorID = !vendorIDTextView.getText().toString().isEmpty() ? Integer.parseInt(vendorIDTextView

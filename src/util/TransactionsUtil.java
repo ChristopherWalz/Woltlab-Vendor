@@ -24,6 +24,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import data.Transaction;
 import de.cwalz.android.woltlabVendor.ICallback;
 import de.cwalz.android.woltlabVendor.MainActivity;
 import de.cwalz.android.woltlabVendor.R;
@@ -33,19 +34,23 @@ public final class TransactionsUtil {
 	public static int VIBRATION_DURATION = 700;
 
 	public final static void update(final Context context, final ICallback callback) {
-		// restore preferences
-		SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-		final int lastTransactionID = settings.getInt("lastTransactionID", 0);
-		float balance = settings.getFloat("balance", 0.f);
+		// get last transaction
+		TransactionsDataSource datasource = new TransactionsDataSource(context);
+		datasource.open();
+		Transaction lastTransaction = datasource.getLastTransaction();
+		final int lastTransactionID = lastTransaction.getTransactionID();
+		float balance = lastTransaction.getBalance();
 		Log.i(WidgetProvider.LOG_TAG, "saved lastTransactionID: " + String.valueOf(lastTransactionID));
 		Log.i(WidgetProvider.LOG_TAG, "saved balance: " + String.valueOf(balance));
 
+		// get api data
+		SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
 		final int vendorID = settings.getInt("vendorID", 0);
 		final String apiKey = settings.getString("apiKey", "");
 
 		// return false if configuration is not done yet
 		if (vendorID == 0 || apiKey.isEmpty()) {
-			callback.onSuccess(0);
+			callback.onFailure(context.getString(R.string.configurationNotDone));
 			Log.i(WidgetProvider.LOG_TAG, "Configuration not done yet, return");
 			Toast.makeText(context, context.getString(R.string.configurationNotDone), Toast.LENGTH_SHORT).show();
 			return;
@@ -145,6 +150,7 @@ public final class TransactionsUtil {
 
 	public static void updateDatabase(JSONArray transactions, Context context, ICallback callback) {
 		int length = transactions.length();
+		float lastBalance = 0;
 
 		TransactionsDataSource datasource = new TransactionsDataSource(context);
 		datasource.open();
@@ -167,6 +173,11 @@ public final class TransactionsUtil {
 				datasource.create(transaction.getInt("transactionID"), fileID, transaction.getString("reason"),
 						transaction.getInt("time"), withdrawal, woltlabID,
 						Float.parseFloat(transaction.getString("balance")));
+				
+				// save latest balance
+				if (i == length-1) {
+					lastBalance = Float.parseFloat(transaction.getString("balance"));
+				}
 			}
 			datasource.setTransactionSuccessful();
 		} catch (JSONException e) {
@@ -180,8 +191,7 @@ public final class TransactionsUtil {
 		sendNotification(context, transactions);
 
 		// call callback
-		SharedPreferences settings = context.getSharedPreferences(WidgetProvider.PREFS_NAME, 0);
-		callback.onSuccess(settings.getFloat("balance", 0));
+		callback.onSuccess(lastBalance);
 	}
 
 	private static void sendNotification(Context context, JSONArray transactions) {

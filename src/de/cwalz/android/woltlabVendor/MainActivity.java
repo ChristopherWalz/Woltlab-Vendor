@@ -161,7 +161,10 @@ public class MainActivity extends ListActivity {
 						// show views
 						loadingView.setVisibility(View.GONE);
 						getListView().setVisibility(View.VISIBLE);
-						balanceView.setVisibility(View.VISIBLE);
+						Log.i("BALANCE", String.valueOf(balance));
+						if (balance > 0) {
+							balanceView.setVisibility(View.VISIBLE);
+						}
 						if (transactions.size() == 0) {
 							emptyView.setVisibility(View.VISIBLE);
 						}
