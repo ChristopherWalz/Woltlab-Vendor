@@ -63,7 +63,7 @@ public final class TransactionsUtil {
 
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.setUserAgent("WoltlabVendor Android/1.0");
-		client.post("https://www.woltlab.com/api/1.1/vendor/transaction/list.json", params,
+		client.post("https://api.woltlab.com/1.1/vendor/transaction/list.json", params,
 				new JsonHttpResponseHandler() {
 					public void onStart() {
 						Log.i(WidgetProvider.LOG_TAG, "Starting POST Request");
