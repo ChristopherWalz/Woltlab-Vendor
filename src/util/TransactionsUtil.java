@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -224,9 +225,12 @@ public final class TransactionsUtil {
 
 		if (sales > 0 && credit > 0) {
 			Log.i("TransactionID/NotifyID", String.valueOf(lastTransactionID));
+			
+			// do not vibrate if it's silent mode
+			AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
 			// vibrate
-			if (vibration) {
+			if (vibration && audio.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
 				Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 				v.vibrate(VIBRATION_DURATION);
 			}
